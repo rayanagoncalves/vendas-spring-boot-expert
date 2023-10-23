@@ -1,5 +1,6 @@
-application:
-  name: Sistema de vendas
+spring:
+  profiles:
+    active: dev
 
 server:
   port: 8081
