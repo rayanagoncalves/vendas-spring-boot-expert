@@ -1,10 +1,7 @@
 package io.github.rayanagoncalves.domain.entity
 
-class Client(
+data class Client(
+    val id: Int? = null,
     val name: String
 ){
-    val id: Int
-        get() {
-            TODO()
-        }
 }

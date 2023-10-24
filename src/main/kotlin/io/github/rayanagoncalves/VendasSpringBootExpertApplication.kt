@@ -14,7 +14,7 @@ class VendasSpringBootExpertApplication {
 	@Bean
 	fun init(@Autowired clients: Clients): CommandLineRunner {
 		return CommandLineRunner {
-			val client = Client("Rayana")
+			val client = Client(name = "Rayana")
 			clients.save(client = client)
 		}
 	}
