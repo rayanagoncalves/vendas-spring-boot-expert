@@ -1,4 +1,4 @@
-package io.github.rayanagoncalves.vendasspringbootexpert
+package io.github.rayanagoncalves
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

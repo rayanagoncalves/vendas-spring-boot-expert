@@ -1,7 +1,7 @@
-package io.github.rayanagoncalves.vendasspringbootexpert.service
+package io.github.rayanagoncalves.service
 
-import io.github.rayanagoncalves.vendasspringbootexpert.model.Client
-import io.github.rayanagoncalves.vendasspringbootexpert.repository.ClientRepository
+import io.github.rayanagoncalves.model.Client
+import io.github.rayanagoncalves.repository.ClientRepository
 import org.springframework.stereotype.Service
 
 @Service
