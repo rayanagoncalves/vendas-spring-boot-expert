@@ -15,7 +15,10 @@ class VendasSpringBootExpertApplication {
 	fun init(@Autowired clients: Clients): CommandLineRunner {
 		return CommandLineRunner {
 			val client = Client(name = "Rayana")
-			clients.save(client = client)
+			clients.save(client)
+
+			val exists = clients.existsByName("Rayana")
+			println("Existe um cliente com o nome Rayana? $exists")
 		}
 	}
 }
