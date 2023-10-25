@@ -1,8 +1,10 @@
 package io.github.rayanagoncalves.domain.repository
 
 import io.github.rayanagoncalves.domain.entity.Client
+import jakarta.persistence.EntityManager
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 
 const val INSERT = "insert into client (name) values (?)"
@@ -11,10 +13,12 @@ const val UPDATE = "update client set name = ? where id = ?"
 const val DELETE = "delete from client where id = ?"
 @Repository
 class Clients(
-    private val jdbcTemplate: JdbcTemplate
+    private val jdbcTemplate: JdbcTemplate,
+    private val entityManager: EntityManager
 ) {
 
-    fun save(client: Client) = jdbcTemplate.update(INSERT, client.name)
+    @Transactional
+    fun save(client: Client) = entityManager.persist(client)
 
     fun update(client: Client) = jdbcTemplate.update(UPDATE, client.name, client.id)
 
