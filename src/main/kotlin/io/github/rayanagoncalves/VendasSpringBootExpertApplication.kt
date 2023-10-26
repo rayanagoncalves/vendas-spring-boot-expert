@@ -19,6 +19,9 @@ class VendasSpringBootExpertApplication {
 
 			val exists = clients.existsByName("Rayana")
 			println("Existe um cliente com o nome Rayana? $exists")
+
+			val result = clients.encontrarPorNome("Rayana")
+			result.forEach { println(it) }
 		}
 	}
 }
