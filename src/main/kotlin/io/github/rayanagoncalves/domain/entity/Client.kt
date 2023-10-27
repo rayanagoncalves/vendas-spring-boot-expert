@@ -6,8 +6,10 @@ import jakarta.persistence.*
 data class Client(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null,
+
     @Column(length = 100)
     var name: String,
+
     @OneToMany(mappedBy = "client")
     var orders: Set<Order> = setOf()
 

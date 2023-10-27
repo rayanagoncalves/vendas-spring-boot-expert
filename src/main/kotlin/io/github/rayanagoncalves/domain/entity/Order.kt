@@ -8,11 +8,17 @@ import java.time.LocalDate
 data class Order(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int,
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     var client: Client,
+
     @Column(name = "order_date")
     var orderDate: LocalDate,
+
     @Column(length = 20, precision = 2)
-    var total: BigDecimal
+    var total: BigDecimal,
+
+    @OneToMany(mappedBy = "order")
+    var items: List<OrderItem>
 )
