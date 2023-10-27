@@ -1,7 +1,7 @@
 package io.github.rayanagoncalves
 
 import io.github.rayanagoncalves.domain.entity.Client
-import io.github.rayanagoncalves.domain.repository.Clients
+import io.github.rayanagoncalves.domain.repository.ClientRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -12,15 +12,15 @@ import org.springframework.context.annotation.Bean
 class VendasSpringBootExpertApplication {
 
 	@Bean
-	fun init(@Autowired clients: Clients): CommandLineRunner {
+	fun init(@Autowired clientRepository: ClientRepository): CommandLineRunner {
 		return CommandLineRunner {
 			val client = Client(name = "Rayana")
-			clients.save(client)
+			clientRepository.save(client)
 
-			val exists = clients.existsByName("Rayana")
+			val exists = clientRepository.existsByName("Rayana")
 			println("Existe um cliente com o nome Rayana? $exists")
 
-			val result = clients.encontrarPorNome("Rayana")
+			val result = clientRepository.encontrarPorNome("Rayana")
 			result.forEach { println(it) }
 		}
 	}
