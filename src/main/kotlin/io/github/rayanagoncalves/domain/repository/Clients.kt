@@ -13,9 +13,9 @@ interface Clients: JpaRepository<Client, Int> {
 
     fun findByNameLike(name: String): List<Client>
 
-    @Query(value = "delete from Cliente c where c.name = :name")
+    @Query(value = "delete from Client c where c.name = :name")
     @Modifying
-    fun deleteByName(name: String)
+    fun deleteByName(@Param("name") name: String)
 
     fun existsByName(name: String): Boolean
 }
