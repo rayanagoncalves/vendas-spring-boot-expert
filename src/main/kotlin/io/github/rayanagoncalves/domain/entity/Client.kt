@@ -10,7 +10,8 @@ data class Client(
     @Column(length = 100)
     var name: String,
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY) // o padrao do OneToMany já é LAZY. O LAZY não traz os pedidos, só se for feito o fetch.
+    // Já o EAGER sempre que carregar um cliente, carregara tambem os pedidos, deixando as consultas pesadas. Entao o recomendado é usar o LAZY.
     var orders: Set<Order> = setOf()
 
 )

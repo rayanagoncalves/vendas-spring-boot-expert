@@ -18,4 +18,7 @@ interface ClientRepository: JpaRepository<Client, Int> {
     fun deleteByName(@Param("name") name: String)
 
     fun existsByName(name: String): Boolean
+
+    @Query(" select c from Client c left join fetch c.orders o where c.id = :id")
+    fun findClientFetchOrders(@Param("id") id: Int)
 }

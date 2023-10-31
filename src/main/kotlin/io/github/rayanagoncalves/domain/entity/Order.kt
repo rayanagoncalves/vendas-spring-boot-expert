@@ -7,7 +7,7 @@ import java.time.LocalDate
 @Entity
 data class Order(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Int,
+    var id: Int? = null,
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -16,9 +16,9 @@ data class Order(
     @Column(name = "order_date")
     var orderDate: LocalDate,
 
-    @Column(length = 20, precision = 2)
+    @Column(precision = 20, scale = 2)
     var total: BigDecimal,
 
     @OneToMany(mappedBy = "order")
-    var items: List<OrderItem>
+    var items: List<OrderItem> = mutableListOf()
 )

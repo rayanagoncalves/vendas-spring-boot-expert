@@ -5,7 +5,7 @@ import jakarta.persistence.*
 @Entity
 data class OrderItem(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Int,
+    var id: Int? = null,
 
     @ManyToOne
     @JoinColumn(name = "order_id")
