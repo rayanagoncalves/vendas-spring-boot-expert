@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/clients")
 class ClientController {
 
-    @GetMapping(value = ["/hello/{name}"])
+    @RequestMapping(
+        value = ["/hello/{name}", "api/hello"],
+        method = [RequestMethod.GET],
+        consumes = ["application/json", "application/xml"],
+        produces = ["application/json", "application/xml"]
+    )
     @ResponseBody
     fun helloClient(@PathVariable("name") nameClient: String): String {
         return "Hello $nameClient"
