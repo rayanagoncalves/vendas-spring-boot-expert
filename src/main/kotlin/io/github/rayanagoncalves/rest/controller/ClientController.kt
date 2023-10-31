@@ -27,4 +27,17 @@ class ClientController(private val clients: ClientRepository) {
         val clientSaved = clients.save(client)
         return ResponseEntity.ok(clientSaved)
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    fun delete(@PathVariable id: Int): ResponseEntity<Client> {
+        val client = clients.findById(id)
+
+        if(client.isPresent) {
+            clients.delete(client.get())
+            return ResponseEntity.noContent().build()
+        }
+
+        return ResponseEntity.notFound().build()
+    }
 }
