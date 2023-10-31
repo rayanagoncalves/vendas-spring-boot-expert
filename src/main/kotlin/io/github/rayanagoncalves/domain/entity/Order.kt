@@ -5,20 +5,24 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 @Entity
-data class Order(
+class Order {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Int? = null,
+    var id: Int? = null
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    var client: Client,
+    var client: Client? = null
 
     @Column(name = "order_date")
-    var orderDate: LocalDate,
+    var orderDate: LocalDate = LocalDate.now()
 
     @Column(precision = 20, scale = 2)
-    var total: BigDecimal,
+    var total: BigDecimal = BigDecimal.ZERO
 
     @OneToMany(mappedBy = "order")
     var items: List<OrderItem> = mutableListOf()
-)
+
+    override fun toString(): String {
+        return "Order(id=$id, client=$client, orderDate=$orderDate, total=$total)"
+    }
+}

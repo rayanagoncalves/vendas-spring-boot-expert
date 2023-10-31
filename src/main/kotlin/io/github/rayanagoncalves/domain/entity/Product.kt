@@ -4,13 +4,13 @@ import jakarta.persistence.*
 import java.math.BigDecimal
 
 @Entity
-data class Product(
+class Product{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Int,
+    var id: Int? = null
 
-    var description: String,
+    var description: String = ""
 
     @Column(name = "unit_price")
-    var unitPrice: BigDecimal
-)
+    var unitPrice: BigDecimal = BigDecimal.ZERO
+}

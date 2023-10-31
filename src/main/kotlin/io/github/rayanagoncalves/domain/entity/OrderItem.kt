@@ -3,17 +3,17 @@ package io.github.rayanagoncalves.domain.entity
 import jakarta.persistence.*
 
 @Entity
-data class OrderItem(
+class OrderItem {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Int? = null,
+    var id: Int? = null
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    var order: Order,
+    var order: Order? = null
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    var product: Product,
+    var product: Product? = null
 
-    var quantity: Int
-)
+    var quantity: Int = 0
+}

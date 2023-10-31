@@ -18,22 +18,27 @@ class VendasSpringBootExpertApplication() {
 	@Bean
 	fun init(@Autowired clientRepository: ClientRepository, @Autowired orderRepository: OrderRepository): CommandLineRunner {
 		return CommandLineRunner {
-			val client = Client(name = "Rayana")
-			clientRepository.save(client)
+			val rayana = Client()
+			rayana.name = "Rayana"
+			clientRepository.save(rayana)
 
-			val exists = clientRepository.existsByName("Rayana")
-			println("Existe um cliente com o nome Rayana? $exists")
+			val order1 = Order()
+			order1.client = rayana
+			order1.orderDate = LocalDate.now()
+			order1.total = BigDecimal(100)
+			orderRepository.save(order1)
 
-			val result = clientRepository.encontrarPorNome("Rayana")
-			result.forEach { println(it) }
+			val order2 = Order()
+			order2.client = rayana
+			order2.orderDate = LocalDate.now()
+			order2.total = BigDecimal(100)
+			orderRepository.save(order2)
 
-			val o = Order(client = client, orderDate = LocalDate.now(), total = BigDecimal(100))
-			orderRepository.save(o)
+//			val client = clientRepository.findClientFetchOrders(rayana.id!!)
+//			println(client)
+//			println(client.orders)
 
-			clientRepository.findClientFetchOrders(client.id!!)
-			println(client)
-			println(client.orders)
-
+			orderRepository.findByClient(rayana).forEach { println("Código do pedido ${it.id}") }
 		}
 	}
 }

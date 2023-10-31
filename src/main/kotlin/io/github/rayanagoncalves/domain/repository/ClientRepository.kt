@@ -19,6 +19,6 @@ interface ClientRepository: JpaRepository<Client, Int> {
 
     fun existsByName(name: String): Boolean
 
-    @Query(" select c from Client c left join fetch c.orders o where c.id = :id")
-    fun findClientFetchOrders(@Param("id") id: Int)
+    @Query(" select c from Client c left join fetch c.orders where c.id = :id  ")
+    fun findClientFetchOrders(@Param("id") id: Int): Client
 }
