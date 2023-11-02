@@ -9,6 +9,7 @@ class Product{
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null
 
+    @Column(length = 150)
     var description: String = ""
 
     @Column(name = "unit_price")
