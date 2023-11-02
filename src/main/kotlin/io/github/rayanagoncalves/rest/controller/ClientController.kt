@@ -4,68 +4,52 @@ import io.github.rayanagoncalves.domain.entity.Client
 import io.github.rayanagoncalves.domain.repository.ClientRepository
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
-import org.springframework.http.ResponseEntity
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/clients")
 class ClientController(private val clients: ClientRepository) {
 
     @GetMapping("/{id}")
-    @ResponseBody
-    fun getClientById(@PathVariable id: Int): ResponseEntity<Client> {
-        val client = clients.findById(id)
-
-        if (client.isPresent) {
-            return ResponseEntity.ok(client.get())
-        }
-
-        return ResponseEntity.notFound().build()
+    fun getClientById(@PathVariable id: Int): Client {
+        return clients.findById(id)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado") }
     }
 
     @PostMapping
-    @ResponseBody
-    fun save(@RequestBody client: Client): ResponseEntity<Client> {
-        val clientSaved = clients.save(client)
-        return ResponseEntity.ok(clientSaved)
+    @ResponseStatus(HttpStatus.CREATED)
+    fun save(@RequestBody client: Client): Client {
+        return clients.save(client)
     }
 
     @DeleteMapping("/{id}")
-    @ResponseBody
-    fun delete(@PathVariable id: Int): ResponseEntity<Client> {
-        val client = clients.findById(id)
-
-        if (client.isPresent) {
-            clients.delete(client.get())
-            return ResponseEntity.noContent().build()
-        }
-
-        return ResponseEntity.notFound().build()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable id: Int) {
+         clients.findById(id)
+            .map { clients.delete(it) }
+             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado") }
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun update(
         @PathVariable id: Int,
         @RequestBody client: Client
-    ): ResponseEntity<Client> {
-        val clientFound = clients.findById(id)
-
-        return clientFound.map { existingClient ->
-            client.id = existingClient.id
-            val updatedClient = clients.save(client)
-            ResponseEntity.ok(updatedClient)
-        }.orElseGet {
-            ResponseEntity.notFound().build()
-        }
+    ) {
+       clients.findById(id)
+           .map { client.id = it.id
+           clients.save(client) }
+           .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado") }
     }
 
     @GetMapping
-    fun find(filter: Client): ResponseEntity<List<Client>> {
+    fun find(filter: Client): List<Client> {
         val exampleMatcher = ExampleMatcher.matching()
             .withIgnoreCase()
             .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
         val example = Example.of(filter, exampleMatcher)
-        val list = clients.findAll(example)
-        return ResponseEntity.ok(list)
+        return clients.findAll(example)
     }
 }
