@@ -2,6 +2,8 @@ package io.github.rayanagoncalves.rest.controller
 
 import io.github.rayanagoncalves.domain.entity.Client
 import io.github.rayanagoncalves.domain.repository.ClientRepository
+import org.springframework.data.domain.Example
+import org.springframework.data.domain.ExampleMatcher
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -55,5 +57,15 @@ class ClientController(private val clients: ClientRepository) {
         }.orElseGet {
             ResponseEntity.notFound().build()
         }
+    }
+
+    @GetMapping
+    fun find(filter: Client): ResponseEntity<List<Client>> {
+        val exampleMatcher = ExampleMatcher.matching()
+            .withIgnoreCase()
+            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+        val example = Example.of(filter, exampleMatcher)
+        val list = clients.findAll(example)
+        return ResponseEntity.ok(list)
     }
 }
