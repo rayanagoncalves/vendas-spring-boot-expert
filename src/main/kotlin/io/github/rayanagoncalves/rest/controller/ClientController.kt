@@ -14,7 +14,7 @@ class ClientController(private val clients: ClientRepository) {
     fun getClientById(@PathVariable id: Int): ResponseEntity<Client> {
         val client = clients.findById(id)
 
-        if(client.isPresent) {
+        if (client.isPresent) {
             return ResponseEntity.ok(client.get())
         }
 
@@ -33,11 +33,27 @@ class ClientController(private val clients: ClientRepository) {
     fun delete(@PathVariable id: Int): ResponseEntity<Client> {
         val client = clients.findById(id)
 
-        if(client.isPresent) {
+        if (client.isPresent) {
             clients.delete(client.get())
             return ResponseEntity.noContent().build()
         }
 
         return ResponseEntity.notFound().build()
+    }
+
+    @PutMapping("/{id}")
+    fun update(
+        @PathVariable id: Int,
+        @RequestBody client: Client
+    ): ResponseEntity<Client> {
+        val clientFound = clients.findById(id)
+
+        return clientFound.map { existingClient ->
+            client.id = existingClient.id
+            val updatedClient = clients.save(client)
+            ResponseEntity.ok(updatedClient)
+        }.orElseGet {
+            ResponseEntity.notFound().build()
+        }
     }
 }
