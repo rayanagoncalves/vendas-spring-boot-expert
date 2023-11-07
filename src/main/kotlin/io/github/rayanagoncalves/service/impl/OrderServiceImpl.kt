@@ -38,6 +38,10 @@ class OrderServiceImpl(
         return order
     }
 
+    override fun getCompleteOrder(id: Int): Order? {
+        return orders.findByIdFetchItems(id)
+    }
+
     private fun saveItems(order: Order, items: List<OrderItemDTO>): List<OrderItem> {
         if (items.isEmpty()) {
             throw BusinessRuleException("Não é possível lançar um pedido sem itens.")

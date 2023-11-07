@@ -6,4 +6,6 @@ import io.github.rayanagoncalves.rest.dto.OrderDTO
 interface OrderService {
 
     fun save(orderDTO: OrderDTO): Order
+
+    fun getCompleteOrder(id: Int): Order?
 }
