@@ -6,7 +6,6 @@ import io.github.rayanagoncalves.domain.repository.ClientRepository
 import io.github.rayanagoncalves.domain.repository.OrderItemRepository
 import io.github.rayanagoncalves.domain.repository.OrderRepository
 import io.github.rayanagoncalves.domain.repository.ProductRepository
-import io.github.rayanagoncalves.exception.BusinessRuleException
 import io.github.rayanagoncalves.rest.dto.OrderDTO
 import io.github.rayanagoncalves.rest.dto.OrderItemDTO
 import io.github.rayanagoncalves.service.OrderService
@@ -27,7 +26,7 @@ class OrderServiceImpl(
         val order = Order()
         order.total = dto.total
         order.orderDate = LocalDate.now()
-        val client = clients.findById(dto.client).orElseThrow { BusinessRuleException("Código inválido.") }
+        val client = clients.findById(dto.client).orElseThrow { Exception("Código inválido.") }
         order.client = client
 
         val items = saveItems(order, dto.items)
@@ -40,7 +39,7 @@ class OrderServiceImpl(
 
     private fun saveItems(order: Order, items: List<OrderItemDTO>): List<OrderItem> {
         if (items.isEmpty()) {
-            throw BusinessRuleException("Não é possível lançar um pedido sem itens.")
+            throw Exception("Não é possível lançar um pedido sem itens.")
         }
 
        return items.stream().map {
@@ -50,7 +49,7 @@ class OrderServiceImpl(
 
     private fun createOrderItem(it: OrderItemDTO, order: Order): OrderItem {
         val product = products.findById(it.product)
-            .orElseThrow { BusinessRuleException("Código de produto inválido: ${it.product}") }
+            .orElseThrow { Exception("Código de produto inválido: ${it.product}") }
         val orderItem = OrderItem()
         orderItem.quantity = it.quantity
         orderItem.order = order
