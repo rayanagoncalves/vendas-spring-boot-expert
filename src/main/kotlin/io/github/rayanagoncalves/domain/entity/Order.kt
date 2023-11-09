@@ -19,8 +19,12 @@ class Order {
     @Column(precision = 20, scale = 2)
     var total: BigDecimal = BigDecimal.ZERO
 
+    @Enumerated
+    var status: OrderStatus? = null
+
     @OneToMany(mappedBy = "order")
     var items: List<OrderItem> = mutableListOf()
+
 
     override fun toString(): String {
         return "Order(id=$id, client=$client, orderDate=$orderDate, total=$total)"

@@ -2,6 +2,7 @@ package io.github.rayanagoncalves.service.impl
 
 import io.github.rayanagoncalves.domain.entity.Order
 import io.github.rayanagoncalves.domain.entity.OrderItem
+import io.github.rayanagoncalves.domain.entity.OrderStatus
 import io.github.rayanagoncalves.domain.repository.ClientRepository
 import io.github.rayanagoncalves.domain.repository.OrderItemRepository
 import io.github.rayanagoncalves.domain.repository.OrderRepository
@@ -29,6 +30,7 @@ class OrderServiceImpl(
         order.orderDate = LocalDate.now()
         val client = clients.findById(dto.client).orElseThrow { BusinessRuleException("Código inválido.") }
         order.client = client
+        order.status = OrderStatus.REALIZADO
 
         val items = saveItems(order, dto.items)
         orders.save(order)

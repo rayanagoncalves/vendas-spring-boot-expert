@@ -12,8 +12,8 @@ class Client {
     @Column(length = 100)
     var name: String = ""
 
-    @Column(length = 11)
-    var cpf: String = ""
+    @Column(name = "document_number" ,length = 11)
+    var documentNumber: String = ""
 
     @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY) // o padrao do OneToMany já é LAZY. O LAZY não traz os pedidos, só se for feito o fetch.

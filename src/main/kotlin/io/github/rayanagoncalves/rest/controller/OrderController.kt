@@ -31,9 +31,10 @@ class OrderController(private val orderService: OrderService) {
         return OrderInformationDTO(
             code = order.id!!,
             clientName = order.client!!.name,
-            cpf = order.client!!.cpf,
+            documentNumber = order.client!!.documentNumber,
             total = order.total,
-            items = convert(order.items)
+            items = convert(order.items),
+            status = order.status!!.name
         )
     }
 
@@ -50,5 +51,4 @@ class OrderController(private val orderService: OrderService) {
             )
         }.toList()
     }
-
 }

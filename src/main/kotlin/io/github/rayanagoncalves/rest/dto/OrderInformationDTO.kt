@@ -4,8 +4,9 @@ import java.math.BigDecimal
 
 data class OrderInformationDTO(
     val code: Int,
-    val cpf: String,
+    val documentNumber: String,
     val clientName: String,
     val total: BigDecimal,
-    val items: List<OrderItemInformationDTO>
+    val items: List<OrderItemInformationDTO>,
+    val status: String
 )
