@@ -2,9 +2,11 @@ package io.github.rayanagoncalves.rest.controller
 
 import io.github.rayanagoncalves.domain.entity.Order
 import io.github.rayanagoncalves.domain.entity.OrderItem
+import io.github.rayanagoncalves.domain.entity.OrderStatus
 import io.github.rayanagoncalves.rest.dto.OrderDTO
 import io.github.rayanagoncalves.rest.dto.OrderInformationDTO
 import io.github.rayanagoncalves.rest.dto.OrderItemInformationDTO
+import io.github.rayanagoncalves.rest.dto.UpdateOrderStatusDTO
 import io.github.rayanagoncalves.service.OrderService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -27,6 +29,12 @@ class OrderController(private val orderService: OrderService) {
         return convert(completedOrder!!)
     }
 
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun updateStatus(@PathVariable id: Int, @RequestBody dto: UpdateOrderStatusDTO) {
+        orderService.updateStatus(id, OrderStatus.valueOf(dto.newStatus))
+    }
+
     private fun convert(order: Order): OrderInformationDTO {
         return OrderInformationDTO(
             code = order.id!!,
@@ -39,7 +47,7 @@ class OrderController(private val orderService: OrderService) {
     }
 
     private fun convert(items: List<OrderItem>): List<OrderItemInformationDTO> {
-        if(items.isEmpty()) {
+        if (items.isEmpty()) {
             return Collections.emptyList()
         }
 

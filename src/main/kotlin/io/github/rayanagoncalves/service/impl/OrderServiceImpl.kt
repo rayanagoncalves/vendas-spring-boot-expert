@@ -8,6 +8,7 @@ import io.github.rayanagoncalves.domain.repository.OrderItemRepository
 import io.github.rayanagoncalves.domain.repository.OrderRepository
 import io.github.rayanagoncalves.domain.repository.ProductRepository
 import io.github.rayanagoncalves.exception.BusinessRuleException
+import io.github.rayanagoncalves.exception.OrderNotFoundException
 import io.github.rayanagoncalves.rest.dto.OrderDTO
 import io.github.rayanagoncalves.rest.dto.OrderItemDTO
 import io.github.rayanagoncalves.service.OrderService
@@ -42,6 +43,15 @@ class OrderServiceImpl(
 
     override fun getCompleteOrder(id: Int): Order? {
         return orders.findByIdFetchItems(id)
+    }
+
+    @Transactional
+    override fun updateStatus(id: Int, orderStatus: OrderStatus) {
+        orders.findById(id)
+            .map {
+                it.status = orderStatus
+                orders.save(it)
+            }.orElseThrow { OrderNotFoundException() }
     }
 
     private fun saveItems(order: Order, items: List<OrderItemDTO>): List<OrderItem> {
