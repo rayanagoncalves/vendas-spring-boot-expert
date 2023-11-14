@@ -29,7 +29,7 @@ class OrderServiceImpl(
         val order = Order()
         order.total = dto.total
         order.orderDate = LocalDate.now()
-        val client = clients.findById(dto.client).orElseThrow { BusinessRuleException("Código inválido.") }
+        val client = dto.client?.let { clients.findById(it).orElseThrow { BusinessRuleException("Código inválido.") } }
         order.client = client
         order.status = OrderStatus.REALIZADO
 
