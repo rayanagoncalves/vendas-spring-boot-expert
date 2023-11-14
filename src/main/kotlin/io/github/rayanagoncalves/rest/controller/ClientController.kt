@@ -2,6 +2,7 @@ package io.github.rayanagoncalves.rest.controller
 
 import io.github.rayanagoncalves.domain.entity.Client
 import io.github.rayanagoncalves.domain.repository.ClientRepository
+import jakarta.validation.Valid
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
 import org.springframework.http.HttpStatus
@@ -20,7 +21,7 @@ class ClientController(private val clients: ClientRepository) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody client: Client): Client {
+    fun save(@RequestBody @Valid client: Client): Client {
         return clients.save(client)
     }
 

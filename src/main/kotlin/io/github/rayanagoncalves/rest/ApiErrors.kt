@@ -6,4 +6,8 @@ class ApiErrors {
     constructor(errorMessage: String) {
         this.errors = mutableListOf(errorMessage)
     }
+
+    constructor(errors: List<String?>) {
+        this.errors = errors as MutableList<String>
+    }
 }

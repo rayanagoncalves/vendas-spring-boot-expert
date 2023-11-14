@@ -2,6 +2,8 @@ package io.github.rayanagoncalves.domain.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
+import jakarta.validation.constraints.NotEmpty
+import org.hibernate.validator.constraints.br.CPF
 
 @Entity
 class Client {
@@ -10,9 +12,12 @@ class Client {
     var id: Int? = null
 
     @Column(length = 100)
-    var name: String = ""
+    @NotEmpty(message = "O nome é obrigatório.")
+    lateinit var name: String
 
     @Column(name = "document_number" ,length = 11)
+    @NotEmpty(message = "O CPF é obrigatório.")
+    @CPF(message = "Informe um CPF válido.")
     var documentNumber: String = ""
 
     @JsonIgnore
