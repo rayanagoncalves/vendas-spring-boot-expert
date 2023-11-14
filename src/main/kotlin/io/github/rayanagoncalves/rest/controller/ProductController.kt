@@ -2,6 +2,7 @@ package io.github.rayanagoncalves.rest.controller
 
 import io.github.rayanagoncalves.domain.entity.Product
 import io.github.rayanagoncalves.domain.repository.ProductRepository
+import jakarta.validation.Valid
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
 import org.springframework.http.HttpStatus
@@ -22,7 +23,7 @@ class ProductController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody product: Product): Product {
+    fun create(@RequestBody @Valid product: Product): Product {
         return products.save(product)
     }
 
@@ -37,7 +38,7 @@ class ProductController(
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun update(@PathVariable id: Int,
-               @RequestBody product: Product
+               @RequestBody @Valid product: Product
     ) {
         products.findById(id)
             .map { product.id = it.id

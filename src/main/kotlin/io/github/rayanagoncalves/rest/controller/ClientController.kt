@@ -37,7 +37,7 @@ class ClientController(private val clients: ClientRepository) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun update(
         @PathVariable id: Int,
-        @RequestBody client: Client
+        @RequestBody @Valid client: Client
     ) {
        clients.findById(id)
            .map { client.id = it.id
