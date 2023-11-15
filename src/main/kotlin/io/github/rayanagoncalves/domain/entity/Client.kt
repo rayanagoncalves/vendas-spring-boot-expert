@@ -12,13 +12,13 @@ class Client {
     var id: Int? = null
 
     @Column(length = 100)
-    @NotEmpty(message = "O nome é obrigatório.")
+    @NotEmpty(message = "{campo.nome.obrigatorio}")
     var name: String = ""
 
     @Column(name = "document_number" ,length = 11)
-    @NotEmpty(message = "O CPF é obrigatório.")
-    @CPF(message = "Informe um CPF válido.")
-    var documentNumber: String = ""
+    @NotEmpty(message = "{campo.cpf.obrigatorio}")
+    @CPF(message = "{campo.cpf.invalido}")
+    lateinit var documentNumber: String
 
     @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY) // o padrao do OneToMany já é LAZY. O LAZY não traz os pedidos, só se for feito o fetch.

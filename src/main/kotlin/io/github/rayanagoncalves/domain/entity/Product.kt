@@ -12,10 +12,10 @@ class Product{
     var id: Int? = null
 
     @Column(length = 150)
-    @NotEmpty(message = "A descrição é obrigatória.")
+    @NotEmpty(message = "{campo.descricao.obrigatorio}")
     var description: String = ""
 
     @Column(name = "unit_price")
-    @NotNull(message = "O preço é obrigatório.")
+    @NotNull(message = "{campo.preco.obrigatorio}")
     lateinit var unitPrice: BigDecimal
 }

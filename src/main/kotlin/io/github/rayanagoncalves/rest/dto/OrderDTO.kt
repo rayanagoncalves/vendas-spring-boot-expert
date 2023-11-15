@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotNull
 import java.math.BigDecimal
 
 class OrderDTO {
-    @NotNull(message = "Informe o código do cliente.")
+    @NotNull(message = "{campo.codigo-cliente.obrigatorio}")
     var client: Int? = null
 
-    @NotNull(message = "O valor total do pedido é obrigatório.")
+    @NotNull(message = "{campo.total-pedido.obrigatorio}")
     lateinit var total: BigDecimal
 
-    @NotEmptyList(message = "Pedido não pode ser realizado sem itens.")
+    @NotEmptyList(message = "{campo.items-pedido.obrigatorio}")
     val items: List<OrderItemDTO> = mutableListOf()
 }
