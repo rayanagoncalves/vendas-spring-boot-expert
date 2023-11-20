@@ -1,26 +1,36 @@
 package io.github.rayanagoncalves.config
 
 import org.springframework.context.annotation.Bean
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.SecurityFilterChain
 
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfigurerAdapter() {
+class SecurityConfig: WebSecurityConfiguration() {
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
 
-    override fun configure(auth: AuthenticationManagerBuilder?) { // parte de autenticacao
-        super.configure(auth)
-    }
+    @Bean
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        http.
+        authorizeHttpRequests()?.
+   //     requestMatchers("/topics")?.hasAuthority("READ_WRITE")?.
+        anyRequest()?.
+        authenticated()?.
+        and()?.
+        sessionManagement()?.
+        sessionCreationPolicy(SessionCreationPolicy.STATELESS)?.
+        and()?.
+        formLogin()?.disable()?.
+        httpBasic()
 
-    override fun configure(http: HttpSecurity?) { // parte de autorizacao
-        super.configure(http)
+        return http.build()
     }
 }
