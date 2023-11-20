@@ -1,36 +1,44 @@
 package io.github.rayanagoncalves.config
 
 import org.springframework.context.annotation.Bean
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration
-import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 
+
+@Configuration
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfiguration() {
+class SecurityConfig {
+
+//    @Bean
+//    fun passwordEncoder(): PasswordEncoder {
+//        return BCryptPasswordEncoder()
+//    }
+
+//    @Throws(Exception::class)
+//    protected fun configure(http: HttpSecurity) {
+//        http
+//            .authorizeRequests()
+//           // .antMatchers("/public/**").permitAll()
+//            .anyRequest().authenticated()
+//         //   .and()
+//        //    .formLogin()
+//           // .loginPage("/login")
+//        ///    .permitAll()
+//          //  .and()
+//          //  .logout()
+//         //   .permitAll()
+//    }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
-
-    @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http.
-        authorizeHttpRequests()?.
-   //     requestMatchers("/topics")?.hasAuthority("READ_WRITE")?.
-        anyRequest()?.
-        authenticated()?.
-        and()?.
-        sessionManagement()?.
-        sessionCreationPolicy(SessionCreationPolicy.STATELESS)?.
-        and()?.
-        formLogin()?.disable()?.
-        httpBasic()
-
-        return http.build()
+    fun userDetailsService(): InMemoryUserDetailsManager? {
+        val user: UserDetails = User.withDefaultPasswordEncoder()
+            .username("user")
+            .password("password")
+            .roles("USER")
+            .build()
+        return InMemoryUserDetailsManager(user)
     }
 }
